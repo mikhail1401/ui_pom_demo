@@ -1,13 +1,4 @@
-from selenium import webdriver
-from time import sleep
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select, WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
-import selenium1.utilities as utils
-import pytest
-# for interview purposes I dont need the stuff above
+from features.ui.all_imports import *
 
 # AGENDA: 
     # methods for performing keyboard and mouse actions using Actions class
@@ -34,14 +25,16 @@ def test_take_screenshots(browser):
     try:
         # use the following Login steps we created previously
         print("login page started..")
-        username = browser.find_element_by_xpath("//input[@id='username']")
-        passwrod = browser.find_element_by_xpath("//input[@id='password']")
-        login = browser.find_element_by_xpath("//i[@class='fa fa-2x fa-sign-in']")
-        username.send_keys("tomsmith")
-        passwrod.send_keys("SuperSecretPassword!")
-        login.click()
+        login_page = Login(browser)
+        login_page.enter_username("tomsmith")
+        login_page.enter_password("SuperSecretPassword!")
+        login_page.click_login()
+        
+
         print("logged in, taking screenshot")
         sleep(3)
+        # assert "titlename" == login_page.get_title()
+
         filepath = "./screenshots/"+ utils.get_timestamp() +".png" # "+ utils.get_timestamp() +" will create unique timestampt names for screenshots
         browser.save_screenshot(filepath)
         print('test completed!')
